@@ -23,12 +23,12 @@ public class alinacionMulti {
             //Pregunta cuantas secuencias tendra la celula
             System.out.println("Cuantas secuencias tiene la celula?");
             int numSec = s.nextInt();
-            celula = new Celula(numSec);
+            celula = new Celula();
             s.nextLine();
             //mete las secuencias en la celula
             for (int i = 0; i < numSec; i++) {
                 System.out.println("Digite el encabezado de la secuencia numero " + (i + 1));
-                String encabezado = s.nextLine();
+                String encabezado = s.nextLine().toLowerCase();
                 System.out.println("Digite la secuencia numero " + (i + 1));
                 String secuencia = s.nextLine();
                 celula.agregarNucleotido(encabezado, secuencia);
@@ -47,11 +47,12 @@ public class alinacionMulti {
      * para poder crear ytrabajar con la celula creada con las secuencias del arhicvo fasta
      */
     public static void SeleccionarCelulaFasta() {
+        celula = new Celula();
         System.out.println("Digite la direcion del Documento Fasta");
         s.nextLine();
         String ruta = s.nextLine();
         Fasta archivo = new Fasta();
-        archivo.leerFasta(ruta);
+        archivo.leerFasta(ruta, celula);
     }
 
     /**

@@ -16,21 +16,24 @@ public class Fasta {
         this.crearFasta(nombre, celula);
     }
 
-    public void leerFasta(String rutaArchivoFasta) {
+    public Celula leerFasta(String rutaArchivoFasta, Celula celula) {
         try {
             File archivo = new File(rutaArchivoFasta);
             Map<String, DNASequence> secuencias = FastaReaderHelper.readFastaDNASequence(archivo);
 
             for (Map.Entry<String, DNASequence> entry : secuencias.entrySet()) {
                 String encabezado = entry.getKey();
-                Sequence<?> secuencia = entry.getValue();
+                String secuencia = entry.getValue().getSequenceAsString();
 
                 System.out.println("Encabezado: " + encabezado);
-                System.out.println("Secuencia: " + secuencia.getSequenceAsString());
+                System.out.println("Secuencia: " + secuencia);
+                
+                celula.agregarNucleotido(encabezado, secuencia);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return celula;
     }
 
     public void crearFasta(String nombre, Celula celula) {

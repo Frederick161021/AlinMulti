@@ -18,9 +18,8 @@ public class Celula {
      * Constructor del objeto Celular que inicializa una nueva celula y define el numero de filas de esta
      * @param numNucleotidos 
      */
-    public Celula(int numNucleotidos) {
+    public Celula() {
         this.celula = new ArrayList();
-        this.setCelula(numNucleotidos);
     }
 
     public void agregarNucleotido(String encabezado, String secuencia) {
