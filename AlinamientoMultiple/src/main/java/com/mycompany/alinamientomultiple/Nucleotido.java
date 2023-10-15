@@ -27,7 +27,7 @@ public class Nucleotido {
     public Nucleotido(String encabezado, String secuencia){
         this.nucleotido = new ArrayList();
         this.setTamaño(secuencia.length());
-        this.setNucleotido(secuencia.toUpperCase());
+        this.setNucleotido(secuencia);
         this.setEncabezado(encabezado);
     }
 

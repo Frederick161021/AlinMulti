@@ -30,7 +30,7 @@ public class alinacionMulti {
                 System.out.println("Digite el encabezado de la secuencia numero " + (i + 1));
                 String encabezado = s.nextLine().toLowerCase();
                 System.out.println("Digite la secuencia numero " + (i + 1));
-                String secuencia = s.nextLine();
+                String secuencia = s.nextLine().toUpperCase();
                 celula.agregarNucleotido(encabezado, secuencia);
             }
             //crea y nombra el archivo fasta en el que lo va a guardar
@@ -48,11 +48,33 @@ public class alinacionMulti {
      */
     public static void SeleccionarCelulaFasta() {
         celula = new Celula();
-        System.out.println("Digite la direcion del Documento Fasta");
+        System.out.println("Digite la ruta del Documento Fasta");
         s.nextLine();
         String ruta = s.nextLine();
         Fasta archivo = new Fasta();
-        archivo.leerFasta(ruta, celula);
+        celula = archivo.leerFasta(ruta, celula);
+    }
+    
+    public static void imprimirCelula(){
+        System.out.println("******************************Celula******************************");
+        System.out.println("Num Nucleotidos: "+celula.getNumNucleotidos());
+        System.out.println("Numero Columnas: "+celula.getNumColumnas());
+        System.out.println("Numero Filas: "+celula.getNumFilas());
+        System.out.println("Tamaño de la secuencia mas grande: "+celula.getTamañoNucleotidoGrande());
+        System.out.println("Index de la secuencia mas grande: "+celula.getIndexNucleotidoGrande());
+        System.out.println("Tamaño de la segunda secuencia mas grande: "+celula.getTamañoNucleotidoGrande2());
+        System.out.println("Index de la segunda secuencia mas grande: "+celula.getIndexNucleotidoGrande2());
+        System.out.println("Tamaño de la secuencia mas pequeña: "+celula.getTamañoNucleotidoPequeño());
+        System.out.println("Index de la secuencia mas pequeña: "+celula.getIndexNucleotidoPequeño());
+        
+        for(Nucleotido nucleotido:celula.getCelula()){
+            System.out.println("Encabezado:\n"+nucleotido.getEncabezado());
+            System.out.println("Tamaño:\n"+nucleotido.getTamaño());
+            System.out.println("Secuencia:\n"+nucleotido.getNucleotido());
+        }
+    }
+    
+    public static void AlinacionMultiple(){
     }
 
     /**
@@ -70,8 +92,9 @@ public class alinacionMulti {
             System.out.println("Elige el numero de la opcion que deseas:");
             System.out.println("1.-Crear nueva celula Con archivo Fasta\n"
                     + "2.-Elegir un archivo Fasta\n"
-                    + "3.-Iniciar proceso de Alinacion Multiple\n"
-                    + "4.-Salir");
+                    + "3.-Imprimir Celula\n"
+                    + "4.-Iniciar proceso de Alinacion Multiple\n"
+                    + "5.-Salir");
             try {
                 seleccion = s.nextInt();
                 switch (seleccion) {
@@ -82,9 +105,12 @@ public class alinacionMulti {
                         SeleccionarCelulaFasta();
                         break;
                     case 3:
-                        
+                        imprimirCelula();
                         break;
                     case 4:
+                        AlinacionMultiple();
+                        break;
+                    case 5:
                         System.exit(0);
                         break;
                     default:
@@ -94,11 +120,11 @@ public class alinacionMulti {
             } catch (Exception e) {
                 System.out.println("Elige un numero del menu");
             }
-        } while (seleccion != 4);
+        } while (seleccion != 5);
     }
 
 }
-
+//C:\Users\togae\OneDrive\Documentos\NetBeansProjects\AlinamientoMultiple\AlinamientoMultiple\src\main\resources\fasta\ejemplo.fasta
 //SecureRandom secureRandom = new SecureRandom();
 //        
 //        // Generar un número entero aleatorio entre 1 y 100 (ambos inclusive)
