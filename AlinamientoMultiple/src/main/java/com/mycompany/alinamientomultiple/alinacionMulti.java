@@ -11,7 +11,6 @@ import java.util.Scanner;
 public class alinacionMulti {
     private  static Scanner s = new Scanner(System.in);// Se importa el scanner de java para interactuar con el usuario
     private static Celula celula;//Celula con la que se va a trabajar
-    private static Fasta fasta;
 
     /**
      * Metodo que le pide los parametros al usuario para crear una nueva celula,
@@ -36,7 +35,7 @@ public class alinacionMulti {
             //crea y nombra el archivo fasta en el que lo va a guardar
             System.out.println("Digite un nombre para el documento Fasta:");
             String nombre = s.next();
-            fasta = new Fasta(nombre, celula);
+            Fasta fasta = new Fasta(nombre, celula);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -75,6 +74,7 @@ public class alinacionMulti {
     }
     
     public static void AlinacionMultiple(){
+        Aliniamiento aliniamineto = new Aliniamiento(celula);
     }
 
     /**

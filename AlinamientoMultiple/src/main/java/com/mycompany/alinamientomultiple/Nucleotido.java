@@ -1,11 +1,12 @@
 package com.mycompany.alinamientomultiple;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Objeto Nucleotido que contien el tamaño de la secuencia, la secuencia dentro de un ArrayList<Character> y su encabezado
  * @author Erick Toledo
  */
-public class Nucleotido {
+public class Nucleotido implements Serializable {
     private String encabezado;
     private ArrayList<Character> nucleotido;
     private int tamaño;
@@ -48,7 +49,7 @@ public class Nucleotido {
            this.nucleotido.add(caracter);
         }
     }
-
+    
     /**
      * Regresa el encabezado del nucleocito
      * @return 
@@ -77,7 +78,8 @@ public class Nucleotido {
      * Asigna el tamaño del arreglo si es que este es modificado
      * @param tamaño 
      */
-    private void setTamaño(int tamaño) {
+    public void setTamaño(int tamaño) {
         this.tamaño = tamaño;
     }
+    
 }
