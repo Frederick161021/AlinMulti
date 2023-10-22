@@ -20,22 +20,38 @@ public class alinacionMulti {
     public static void crearCelula() {
         try {
             //Pregunta cuantas secuencias tendra la celula
-            System.out.println("Cuantas secuencias tiene la celula?");
-            int numSec = s.nextInt();
+//            System.out.println("Cuantas secuencias tiene la celula?");
+//            int numSec = s.nextInt();
             celula = new Celula();
             s.nextLine();
             //mete las secuencias en la celula
-            for (int i = 0; i < numSec; i++) {
-                System.out.println("Digite el encabezado de la secuencia numero " + (i + 1));
-                String encabezado = s.nextLine().toLowerCase();
-                System.out.println("Digite la secuencia numero " + (i + 1));
-                String secuencia = s.nextLine().toUpperCase();
-                celula.agregarNucleotido(encabezado, secuencia);
+//            for (int i = 0; i < numSec; i++) {
+//                System.out.println("Digite el encabezado de la secuencia numero " + (i + 1));
+//                String encabezado = s.nextLine().toLowerCase();
+//                System.out.println("Digite la secuencia numero " + (i + 1));
+//                String secuencia = s.nextLine().toUpperCase();
+//                celula.agregarNucleotido(encabezado, secuencia);
+//            }
+            celula.agregarNucleotido("1", "murcielago");
+            celula.agregarNucleotido("2", "hospital");
+            celula.agregarNucleotido("3", "cementerio");
+            if (celula.getTamañoNucleotidoGrande2() == 0) {
+                celula.setTamañoNucleotidoGrande2(celula.getIndexNucleotidoPequeño());
+                celula.setIndexNucleotidoGrande2(celula.getIndexNucleotidoPequeño());
             }
-            //crea y nombra el archivo fasta en el que lo va a guardar
-            System.out.println("Digite un nombre para el documento Fasta:");
-            String nombre = s.next();
-            Fasta fasta = new Fasta(nombre, celula);
+            
+            System.out.println("Quieres crear un archivo fasta de esta celula:\n1.-Si\n2.-No");
+            int si =2;
+//            int si = s.nextInt();
+            if (si == 1) {
+                //crea y nombra el archivo fasta en el que lo va a guardar
+                System.out.println("Digite un nombre para el documento Fasta:");
+                String nombre = s.next();
+                Fasta fasta = new Fasta(nombre, celula);    
+            }
+            else{
+                System.out.println("Se creo la Celula sin un Archivo Fasta");
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
