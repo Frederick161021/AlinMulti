@@ -91,6 +91,9 @@ public class CelulaAliniada extends Celula implements Serializable {
     }
 
     public void setCalificacion() {
+        numColAliniadas = 0;
+        numGabs = 0;
+        calificacion = 0;
         int limitSemiAliniada = super.getNumColumnas() / 2;
         
         for (int i = 0; i < super.getNumColumnas(); i++) {

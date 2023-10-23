@@ -1,5 +1,6 @@
 package com.mycompany.alinamientomultiple;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,7 @@ import org.apache.commons.lang3.SerializationUtils;
  *
  * @author Erick Toledo
  */
-public class Celula {
+public class Celula implements Serializable {
 
     protected List<Nucleotido> celula;//Celula, lista de nucleotidos osea termina siendo la matriz
     private int numNucleotidos = 0;
