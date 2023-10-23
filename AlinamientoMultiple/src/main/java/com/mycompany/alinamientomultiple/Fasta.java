@@ -31,8 +31,8 @@ public class Fasta {
                 celula.agregarNucleotido(encabezado, secuencia);
             }
             if (celula.getTamañoNucleotidoGrande2() == 0) {
-                celula.setTamañoNucleotidoGrande2(celula.getIndexNucleotidoPequeño());
-                celula.setIndexNucleotidoGrande2(celula.getIndexNucleotidoGrande2());
+                celula.setTamañoNucleotidoGrande2(celula.getTamañoNucleotidoPequeño());
+                celula.setIndexNucleotidoGrande2(celula.getIndexNucleotidoPequeño());
             }
         } catch (IOException e) {
             e.printStackTrace();

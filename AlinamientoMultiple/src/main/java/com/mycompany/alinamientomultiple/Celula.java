@@ -46,6 +46,8 @@ public class Celula {
             extremosSec.replace("indexPequeño", celula.size());
         }
         if (secuencia.length() > extremosSec.get("tamañoGrande")) {
+            extremosSec.replace("tamañoGrande2", extremosSec.get("tamañoGrande"));
+            extremosSec.replace("indexGrande2", extremosSec.get("indexGrande"));
             extremosSec.replace("tamañoGrande", secuencia.length());
             extremosSec.replace("indexGrande", celula.size());
             numColumnas = extremosSec.get("tamañoGrande");
@@ -73,6 +75,8 @@ public class Celula {
             extremosSec.replace("indexPequeño", celula.size());
         }
         if (nucleotido.getTamaño() > extremosSec.get("tamañoGrande")) {
+            extremosSec.replace("tamañoGrande2", extremosSec.get("tamañoGrande"));
+            extremosSec.replace("indexGrande2", extremosSec.get("indexGrande"));
             extremosSec.replace("tamañoGrande", nucleotido.getTamaño());
             extremosSec.replace("indexGrande", celula.size());
             numColumnas = extremosSec.get("tamañoGrande");

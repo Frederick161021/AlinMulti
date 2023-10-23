@@ -16,6 +16,7 @@ public class CelulaAliniada extends Celula implements Serializable {
     private int numGabs = 0;
     private int numColAliniadas = 0;
     private int calificacion = 0;
+    private int indexIgnore;
     protected Map<Character, Integer> caracteres = new HashMap<>();
 
     public CelulaAliniada() {
@@ -47,10 +48,24 @@ public class CelulaAliniada extends Celula implements Serializable {
     public int getCalificacion() {
         return calificacion;
     }
+    
+    public void setCalificacion(int calificacion) {
+        this.calificacion = calificacion;
+    }
 
     public List<Nucleotido> getCelula() {
         return celula;
     }
+
+    public int getIndexIgnore() {
+        return indexIgnore;
+    }
+
+    public void setIndexIgnore(int indexIgnore) {
+        this.indexIgnore = indexIgnore;
+    }
+    
+    
 
     public void setCelula(List<Nucleotido> celula) {
         this.celula = celula;
