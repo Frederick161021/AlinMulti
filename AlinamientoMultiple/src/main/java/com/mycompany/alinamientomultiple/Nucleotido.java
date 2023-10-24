@@ -44,7 +44,7 @@ public class Nucleotido implements Serializable {
      * Asigna el valor de la cadena nucleotido con los caracteres del String secuencia
      * @param secuencia 
      */
-    private void setNucleotido(String secuencia) {
+    public void setNucleotido(String secuencia) {
         for (char caracter : secuencia.toCharArray()) {
            this.nucleotido.add(caracter);
         }

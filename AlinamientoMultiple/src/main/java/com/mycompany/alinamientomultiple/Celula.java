@@ -53,8 +53,8 @@ public class Celula implements Serializable {
             extremosSec.replace("indexGrande", celula.size());
             numColumnas = extremosSec.get("tamañoGrande");
         }
-        if ((secuencia.length() == extremosSec.get("tamañoGrande") && celula.size() != extremosSec.get("indexGrande")) || 
-         (secuencia.length() > extremosSec.get("tamañoGrande2") && secuencia.length() < extremosSec.get("tamañoGrande"))) {
+        if ((secuencia.length() == extremosSec.get("tamañoGrande") && celula.size() != extremosSec.get("indexGrande"))
+                || (secuencia.length() > extremosSec.get("tamañoGrande2") && secuencia.length() < extremosSec.get("tamañoGrande"))) {
             extremosSec.replace("tamañoGrande2", secuencia.length());
             extremosSec.replace("indexGrande2", celula.size());
         }
@@ -82,9 +82,9 @@ public class Celula implements Serializable {
             extremosSec.replace("indexGrande", celula.size());
             numColumnas = extremosSec.get("tamañoGrande");
         }
-        
-        if ((nucleotido.getTamaño() == extremosSec.get("tamañoGrande") && celula.size() != extremosSec.get("indexGrande")) || 
-         (nucleotido.getTamaño() > extremosSec.get("tamañoGrande2") && nucleotido.getTamaño() < extremosSec.get("tamañoGrande"))) {
+
+        if ((nucleotido.getTamaño() == extremosSec.get("tamañoGrande") && celula.size() != extremosSec.get("indexGrande"))
+                || (nucleotido.getTamaño() > extremosSec.get("tamañoGrande2") && nucleotido.getTamaño() < extremosSec.get("tamañoGrande"))) {
             extremosSec.replace("tamañoGrande2", nucleotido.getTamaño());
             extremosSec.replace("indexGrande2", celula.size());
         }
@@ -101,12 +101,24 @@ public class Celula implements Serializable {
         return numNucleotidos;
     }
 
+    public void setNumNucleotidos(int numNucleotidos) {
+        this.numNucleotidos = numNucleotidos;
+    }
+
     public int getNumColumnas() {
         return numColumnas;
     }
 
     public int getNumFilas() {
         return numFilas;
+    }
+
+    public void setNumColumnas(int nColumnas) {
+        this.numColumnas = nColumnas;
+    }
+
+    public void setNumFilas(int nFilas) {
+        this.numFilas = nFilas;
     }
 
     public int getTamañoNucleotidoGrande() {
@@ -148,4 +160,15 @@ public class Celula implements Serializable {
     public int getIndexNucleotidoPequeño() {
         return extremosSec.get("indexPequeño");
     }
+
+    public void actualizarDatos() {
+        int numNucleotidos = celula.size();
+        for (Nucleotido n : celula) {
+            n.setTamaño(n.getNucleotido().size());
+            this.setNumColumnas(n.getNucleotido().size());
+        }
+        setNumNucleotidos(numNucleotidos);
+        setNumFilas(numNucleotidos);
+    }
+
 }

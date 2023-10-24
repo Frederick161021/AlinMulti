@@ -48,7 +48,7 @@ public class CelulaAliniada extends Celula implements Serializable {
     public int getCalificacion() {
         return calificacion;
     }
-    
+
     public void setCalificacion(int calificacion) {
         this.calificacion = calificacion;
     }
@@ -64,24 +64,64 @@ public class CelulaAliniada extends Celula implements Serializable {
     public void setIndexIgnore(int indexIgnore) {
         this.indexIgnore = indexIgnore;
     }
-    
-    
 
     public void setCelula(List<Nucleotido> celula) {
         this.celula = celula;
     }
 
+//    public void mapiarCelula() {
+//        caracteres.put('-', 0);
+//        for (int i = 0; i < super.getNumColumnas(); i++) {
+//            for (int j = 0; j < super.getNumFilas(); j++) {
+//                Character c = super.getCelula().get(j).getNucleotido().get(i);
+//                if (!caracteres.containsKey(c)) {
+//                    caracteres.put(c, 0);
+//                }
+//            }
+//        }
+////        System.out.println("caracteres\n"+caracteres);
+//    }
+//    public void mapiarCelula() {
+//    if (super.getCelula() != null) {
+//        caracteres.put('-', 0);
+//        int numFilas = super.getNumFilas();
+//        int numColumnas = super.getNumColumnas();
+//        for (int i = 0; i < numColumnas; i++) {
+//            for (int j = 0; j < numFilas; j++) {
+//                if (j < super.getCelula().size() && super.getCelula().get(j).getNucleotido() != null && i < super.getCelula().get(j).getNucleotido().size()) {
+//                    Character c = super.getCelula().get(j).getNucleotido().get(i);
+//                    if (!caracteres.containsKey(c)) {
+//                        caracteres.put(c, 0);
+//                    }
+//                } else {
+//                    // Lógica de manejo de límites o null aquí
+//                }
+//            }
+//        }
+//    } else {
+//        // Lógica de manejo de null aquí
+//    }
+//}
     public void mapiarCelula() {
-        caracteres.put('-', 0);
-        for (int i = 0; i < super.getNumColumnas(); i++) {
-            for (int j = 0; j < super.getNumFilas(); j++) {
-                Character c = super.getCelula().get(j).getNucleotido().get(i);
-                if (!caracteres.containsKey(c)) {
-                    caracteres.put(c, 0);
+        if (super.getCelula() != null) {
+            caracteres.put('-', 0);
+            int numFilas = super.getNumFilas();
+            int numColumnas = super.getNumColumnas();
+            for (int i = 0; i < numColumnas; i++) {
+                for (int j = 0; j < numFilas; j++) {
+                    if (j < super.getCelula().size() && super.getCelula().get(j).getNucleotido() != null && i < super.getCelula().get(j).getNucleotido().size()) {
+                        Character c = super.getCelula().get(j).getNucleotido().get(i);
+                        if (!caracteres.containsKey(c)) {
+                            caracteres.put(c, 0);
+                        }
+                    } else {
+                        // Lógica de manejo de límites o null aquí
+                    }
                 }
             }
+        } else {
+            // Lógica de manejo de null aquí
         }
-//        System.out.println("caracteres\n"+caracteres);
     }
 
     private void resetRepeticiones() {
@@ -94,15 +134,16 @@ public class CelulaAliniada extends Celula implements Serializable {
         numColAliniadas = 0;
         numGabs = 0;
         calificacion = 0;
-        int limitSemiAliniada = super.getNumColumnas() / 2;
-        
+        int numSemiAliniadas = 0;
+        super.actualizarDatos();
+        int limitSemiAliniada = (int)(super.getNumColumnas()*.5);
         for (int i = 0; i < super.getNumColumnas(); i++) {
-            
+
             for (int j = 0; j < super.getNumFilas(); j++) {
                 Character c = this.getCelula().get(j).getNucleotido().get(i);
                 caracteres.replace(c, caracteres.get(c) + 1);
             }
-            
+
             for (Map.Entry<Character, Integer> valor : caracteres.entrySet()) {
                 if (valor.getValue() == super.getNumFilas()) {
                     if (valor.getKey() != '-') {
@@ -112,15 +153,24 @@ public class CelulaAliniada extends Celula implements Serializable {
                 } else {
                     if (valor.getValue() > limitSemiAliniada) {
                         if (valor.getKey() != '-') {
-                            calificacion += valor.getValue();
+                            numSemiAliniadas++;
                         }
                     }
                 }
             }
-            calificacion -= caracteres.get('-');
             this.numGabs += caracteres.get('-');
             resetRepeticiones();
         }
+        // Normalizar la calificación
+        double propColAliniadas = Math.min(1, Math.max(0, (double) numColAliniadas / super.getNumColumnas()));
+        double propGabs = Math.min(1, Math.max(0, (double) numGabs / super.getNumColumnas()));
+        double propSemiAliniadas = Math.min(1, Math.max(0, (double) numSemiAliniadas / super.getNumColumnas()));
+
+        int califColAliniadas = (int) (propColAliniadas * 150); // Premio columnas completamente alineadas
+        int califGabs = (int) ((1 - propGabs) * 10); // Penalización espacios en blanco
+        int califSemiAliniadas = (int) (propSemiAliniadas * 50);
+
+        calificacion = Math.min(100, Math.max(0, (califColAliniadas + califSemiAliniadas) - califGabs)); // Calificación final estandarizada
     }
 
 }
