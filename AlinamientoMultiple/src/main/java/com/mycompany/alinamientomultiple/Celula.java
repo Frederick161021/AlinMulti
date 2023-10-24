@@ -92,6 +92,10 @@ public class Celula implements Serializable {
         numNucleotidos++;
         numFilas++;
     }
+    
+    public void agregarNuevoNucleotido(Nucleotido nucleotido) {
+        celula.add(nucleotido);
+    }
 
     public List<Nucleotido> getCelula() {
         return celula;
@@ -165,7 +169,7 @@ public class Celula implements Serializable {
         int numNucleotidos = celula.size();
         for (Nucleotido n : celula) {
             n.setTamaño(n.getNucleotido().size());
-            this.setNumColumnas(n.getNucleotido().size());
+            setNumColumnas(n.getNucleotido().size());
         }
         setNumNucleotidos(numNucleotidos);
         setNumFilas(numNucleotidos);

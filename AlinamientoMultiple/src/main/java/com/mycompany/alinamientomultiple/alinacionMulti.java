@@ -141,6 +141,7 @@ public class alinacionMulti {
 
 }
 //C:\Users\togae\OneDrive\Documentos\NetBeansProjects\AlinamientoMultiple\AlinamientoMultiple\src\main\resources\fasta\ejemplo.fasta
+//C:\Users\togae\OneDrive\Documentos\NetBeansProjects\AlinamientoMultiple\AlinamientoMultiple\src\main\resources\fasta\celulaOriginal.fasta
 //SecureRandom secureRandom = new SecureRandom();
 //        
 //        // Generar un número entero aleatorio entre 1 y 100 (ambos inclusive)

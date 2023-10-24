@@ -95,6 +95,7 @@ public class Aliniamiento {
                     c.actualizarDatos();
                     this.crearCandidatos(c, celulaOriginal.getCelula().get(i));
                     completarCelula(c, i);
+                    c.actualizarDatos();
                     if (!celulasAliniadas.isEmpty()) {
 //                        System.out.println("candidatos:");
 //                        for (CelulaAliniada ca : celulasAliniadas) {
@@ -104,6 +105,7 @@ public class Aliniamiento {
 //                        }
                         eliminarColumnasGaps();
                         for (CelulaAliniada ca : celulasAliniadas) {
+                            ca.actualizarDatos();
                             ca.mapiarCelula();
                             ca.setCalificacion();
                         }
@@ -231,67 +233,67 @@ public class Aliniamiento {
         for (Nucleotido n : temp) {
             CelulaAliniada clon = SerializationUtils.clone(c);
             if (n.getTamaño() == clon.getCelula().get(0).getTamaño() && indexCandidato != c.getIndexIgnore()) {
-                clon.agregarNucleotido(n);
+                clon.agregarNuevoNucleotido(n);
                 celulasAliniadas.add(clon);
             }
         }
     }
 
-//    public void eliminarColumnasGaps() {
-//        for (CelulaAliniada c : celulasAliniadas) {
-//            int numColumnas = c.getNumColumnas();
-//            for (int i = 0; i < numColumnas; i++) {
-//                boolean esColumnaGap = true;
-//                for (Nucleotido nucleotido : c.getCelula()) {
-//                    List<Character> nucleotidoList = nucleotido.getNucleotido();
-//                    if (i >= c.getCelula().size() || nucleotidoList.get(i) != '-') {
-//                        esColumnaGap = false;
-//                        break;
-//                    }
-//                }
-//                if (esColumnaGap) {
-//                    for (Nucleotido nucleotido : c.getCelula()) {
-//                        nucleotido.getNucleotido().remove(i);
-//                    }
-//                    c.setNumColumnas(c.getNumColumnas() - 1);
-//                    numColumnas--;
-//                    i--;
-//                }
-//            }
-//        }
-//    }
-    
-    private void eliminarColumnasGaps() {
+    public void eliminarColumnasGaps() {
         for (CelulaAliniada c : celulasAliniadas) {
-            for (int i = 0; i < c.getNumColumnas(); i++) {
-                for (int j = 0; j < c.getNumFilas(); j++) {
-                    if (c.getCelula().get(j).getNucleotido().get(i) == '-') {
-                        if (j == c.getNumFilas() - 1) {
-//                            System.out.println("col de gabs"+ i);
-                            eleminarColumna(i, c);
-                        }
-                    } else {
-                        j = c.getNumFilas();
+            int numColumnas = c.getNumColumnas();
+            for (int i = 0; i < numColumnas; i++) {
+                boolean esColumnaGap = true;
+                for (Nucleotido nucleotido : c.getCelula()) {
+                    List<Character> nucleotidoList = nucleotido.getNucleotido();
+                    if (i >= c.getCelula().size() || nucleotidoList.get(i) != '-') {
+                        esColumnaGap = false;
+                        break;
                     }
+                }
+                if (esColumnaGap) {
+                    for (Nucleotido nucleotido : c.getCelula()) {
+                        nucleotido.getNucleotido().remove(i);
+                    }
+                    c.setNumColumnas(c.getNumColumnas() - 1);
+                    numColumnas--;
+                    i--;
                 }
             }
         }
     }
-
-    private void eleminarColumna(int index, CelulaAliniada c) {
-        int t = 0;
-        for (int j = 0; j < c.getNumFilas(); j++) {
-            Nucleotido n = c.getCelula().get(j);
-//            System.out.println("antes");
-//            System.out.println(n.getNucleotido());
-            n.getNucleotido().remove(index);
-//            System.out.println("despues");
-//            System.out.println(n.getNucleotido());
-            t = n.getTamaño()-1;
-            n.setTamaño(t);
-        }
-        c.setNumColumnas(c.getNumColumnas()-1);
-    }
+    
+//    private void eliminarColumnasGaps() {
+//        for (CelulaAliniada c : celulasAliniadas) {
+//            for (int i = 0; i < c.getNumColumnas(); i++) {
+//                for (int j = 0; j < c.getNumFilas(); j++) {
+//                    if (c.getCelula().get(j).getNucleotido().get(i) == '-') {
+//                        if (j == c.getNumFilas() - 1) {
+////                            System.out.println("col de gabs"+ i);
+//                            eleminarColumna(i, c);
+//                        }
+//                    } else {
+//                        j = c.getNumFilas();
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    private void eleminarColumna(int index, CelulaAliniada c) {
+//        int t = 0;
+//        for (int j = 0; j < c.getNumFilas(); j++) {
+//            Nucleotido n = c.getCelula().get(j);
+////            System.out.println("antes");
+////            System.out.println(n.getNucleotido());
+//            n.getNucleotido().remove(index);
+////            System.out.println("despues");
+////            System.out.println(n.getNucleotido());
+//            t = n.getTamaño()-1;
+//            n.setTamaño(t);
+//        }
+//        c.setNumColumnas(c.getNumColumnas()-1);
+//    }
 
     private void mutacion(Celula celulaOriginal) {
         for (Nucleotido nucleotido : celulaOriginal.getCelula()) {

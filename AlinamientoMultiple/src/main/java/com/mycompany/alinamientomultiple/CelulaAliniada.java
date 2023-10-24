@@ -136,12 +136,13 @@ public class CelulaAliniada extends Celula implements Serializable {
         calificacion = 0;
         int numSemiAliniadas = 0;
         super.actualizarDatos();
-        int limitSemiAliniada = (int)(super.getNumColumnas()*.5);
+        int limitSemiAliniada = (int) (super.getNumColumnas() * .5);
         for (int i = 0; i < super.getNumColumnas(); i++) {
-
             for (int j = 0; j < super.getNumFilas(); j++) {
-                Character c = this.getCelula().get(j).getNucleotido().get(i);
-                caracteres.replace(c, caracteres.get(c) + 1);
+                if (i < this.getCelula().get(j).getNucleotido().size()) {
+                    Character c = this.getCelula().get(j).getNucleotido().get(i);
+                    caracteres.replace(c, caracteres.get(c) + 1);
+                }
             }
 
             for (Map.Entry<Character, Integer> valor : caracteres.entrySet()) {
