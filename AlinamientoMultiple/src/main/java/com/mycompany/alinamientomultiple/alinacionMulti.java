@@ -6,7 +6,7 @@ import java.util.Scanner;
  * La clase alinacionMulti es la clase principal en la que se ejecutara el
  * sistema de alinacion multiple de secuencias
  *
- * @author togae
+ * @author Erick Toledo
  */
 public class alinacionMulti {
     private  static Scanner s = new Scanner(System.in);// Se importa el scanner de java para interactuar con el usuario
@@ -69,7 +69,9 @@ public class alinacionMulti {
         Fasta archivo = new Fasta();
         celula = archivo.leerFasta(ruta, celula);
     }
-    
+    /**
+     * Imprime la cela original con sus datos
+     */
     public static void imprimirCelula(){
         System.out.println("******************************Celula******************************");
         System.out.println("Num Nucleotidos: "+celula.getNumNucleotidos());

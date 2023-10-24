@@ -1,0 +1,26 @@
+-classpath
+'C:/Users/togae/.m2/repository/org/biojava/biojava-core/5.4.0/biojava-core-5.4.0.jar;C:/Users/togae/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar;C:/Users/togae/.m2/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'1.8'
+-sourcepath
+'C:/Users/togae/OneDrive/Documentos/NetBeansProjects/AlinamientoMultiple/AlinamientoMultiple/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/togae/OneDrive/Documentos/NetBeansProjects/AlinamientoMultiple/AlinamientoMultiple/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'AlinamientoMultiple 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/javase/8/docs/api' 'C:/Users/togae/OneDrive/Documentos/NetBeansProjects/AlinamientoMultiple/AlinamientoMultiple/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'AlinamientoMultiple 1.0-SNAPSHOT API'

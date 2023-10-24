@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ *Clase que extiende de celula que cotine datos para evaluar la celula
  * @author Erick Toledo
  */
 public class CelulaAliniada extends Celula implements Serializable {
@@ -19,6 +19,9 @@ public class CelulaAliniada extends Celula implements Serializable {
     private int indexIgnore;
     protected Map<Character, Integer> caracteres = new HashMap<>();
 
+    /**
+     * Constructor que crea e inicializa los parametros para una celula
+     */
     public CelulaAliniada() {
         super.celula = new ArrayList();
         super.extremosSec.put("indexGrande", 0);
@@ -28,43 +31,83 @@ public class CelulaAliniada extends Celula implements Serializable {
         super.extremosSec.put("indexPequeño", 0);
         super.extremosSec.put("tamañoPequeño", 0);
     }
-
+    
+    /**
+     * retorna el numero de gabs
+     * @return 
+     */
     public int getNumGabs() {
         return numGabs;
     }
 
+    /**
+     *Establece el numero de gabs
+     * @param numGabs 
+     */
     public void setNumGabs(int numGabs) {
         this.numGabs = numGabs;
     }
 
+    /**
+     * Retorna el numero de columnas aliniadas de la celula
+     * @return 
+     */
     public int getNumColAliniadas() {
         return numColAliniadas;
     }
 
+    /**
+     * Establece el número de columnas alineadas en la célula.
+     * @param numColAliniadas 
+     */
     public void setNumColAliniadas(int numColAliniadas) {
         this.numColAliniadas = numColAliniadas;
     }
 
+    /**
+     *  Retorna la calificación actual de la célula.
+     * @return 
+     */
     public int getCalificacion() {
         return calificacion;
     }
 
+    /**
+     * Establece la calificación de la célula basada en diferentes criterios de evaluación.
+     * @param calificacion 
+     */
     public void setCalificacion(int calificacion) {
         this.calificacion = calificacion;
     }
 
+    /**
+     * Retorna la lista de objetos de tipo Nucleotido llamada celula
+     * @return 
+     */
     public List<Nucleotido> getCelula() {
         return celula;
     }
 
+    /**
+     * Retorna el índice ignorado actualmente
+     * @return 
+     */
     public int getIndexIgnore() {
         return indexIgnore;
     }
 
+    /**
+     * Establece el índice a ignorar
+     * @param indexIgnore 
+     */
     public void setIndexIgnore(int indexIgnore) {
         this.indexIgnore = indexIgnore;
     }
 
+    /**
+     *  Establece la lista de objetos de tipo Nucleotido en la célula.
+     * @param celula 
+     */
     public void setCelula(List<Nucleotido> celula) {
         this.celula = celula;
     }
@@ -102,6 +145,10 @@ public class CelulaAliniada extends Celula implements Serializable {
 //        // Lógica de manejo de null aquí
 //    }
 //}
+    
+    /**
+     * Mapea la distribución de caracteres en la célula y maneja los casos límite y nulos.
+     */
     public void mapiarCelula() {
         if (super.getCelula() != null) {
             caracteres.put('-', 0);
@@ -124,12 +171,18 @@ public class CelulaAliniada extends Celula implements Serializable {
         }
     }
 
+    /**
+     * Reinicia los valores de repeticiones en la distribución de caracteres.
+     */
     private void resetRepeticiones() {
         for (Map.Entry<Character, Integer> entry : caracteres.entrySet()) {
             entry.setValue(0);
         }
     }
 
+    /**
+     * Calcula la calificación de la célula basada en el nivel de alineación y otros criterios definidos.
+     */
     public void setCalificacion() {
         numColAliniadas = 0;
         numGabs = 0;

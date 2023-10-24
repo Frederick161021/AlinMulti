@@ -7,15 +7,31 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Map;
 import org.biojava.nbio.core.sequence.DNASequence;
-
+/**
+ * Clase fasta, esta clase maneja todo lo relacionado a los archivos fasta
+ * @author Erick Toledo
+ */
 public class Fasta {
-
+    /**
+     * constructor vacio
+     */
     public Fasta() {}
     
+    /**
+     * Cosntructor para crear un archivo fasta
+     * @param nombre
+     * @param celula 
+     */
     public Fasta(String nombre, Celula celula){
         this.crearFasta(nombre, celula);
     }
-
+    
+    /**
+     * lee un archivo fasta que esta en el equipo buscandolo con la ruta de este
+     * @param rutaArchivoFasta
+     * @param celula
+     * @return 
+     */
     public Celula leerFasta(String rutaArchivoFasta, Celula celula) {
         try {
             File archivo = new File(rutaArchivoFasta);
@@ -40,6 +56,11 @@ public class Fasta {
         return celula;
     }
 
+    /**
+     * Crea un Nuevo arhivo fasta con la celula
+     * @param nombre
+     * @param celula 
+     */
     public void crearFasta(String nombre, Celula celula) {
 
         String nombreArchivo = nombre + ".fasta";

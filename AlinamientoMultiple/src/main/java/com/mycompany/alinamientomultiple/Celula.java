@@ -35,7 +35,18 @@ public class Celula implements Serializable {
         extremosSec.put("indexPequeño", 0);
         extremosSec.put("tamañoPequeño", 0);
     }
+    
 
+    /**
+     * Este método se utiliza para agregar un nuevo nucleótido a una célula. En el primer método, 
+     * se reciben dos cadenas de caracteres como parámetros, que representan el encabezado y la secuencia del 
+     * nucleótido respectivamente. Dentro del método, se realizan comparaciones para determinar el tamaño más p
+     * equeño y los dos tamaños más grandes de las secuencias de nucleótidos, utilizando un mapa llamado 
+     * extremosSec. 
+     * Posteriormente, se crea un nuevo objeto de tipo Nucleotido y se agrega a una lista llamada celula. 
+     * @param encabezado
+     * @param secuencia 
+     */
     public void agregarNucleotido(String encabezado, String secuencia) {
         //inicializa la secuencia con el tamaño mas pequeño y el segundo mas grande para tener una referencia a comparar
         if (extremosSec.get("tamañoPequeño") == 0) {
@@ -65,6 +76,13 @@ public class Celula implements Serializable {
         numFilas++;
     }
 
+    /**
+     * En este metodo  se recibe un objeto Nucleotido directamente y se realizan las mismas 
+     * operaciones de comparación utilizando su tamaño. Además, se utiliza la función SerializationUtils.
+     * clone para asegurarse de que se agregue una copia del objeto Nucleotido. 
+     * Finalmente, el número de nucleótidos y filas se actualiza después de cada operación de agregado.
+     * @param nucleotido 
+     */
     public void agregarNucleotido(Nucleotido nucleotido) {
         //inicializa la secuencia con el tamaño mas pequeño y el segundo mas grande para tener una referencia a comparar
         if (extremosSec.get("tamañoPequeño") == 0) {
@@ -93,78 +111,162 @@ public class Celula implements Serializable {
         numFilas++;
     }
     
+    /**
+     * Este método tiene como objetivo agregar un nuevo objeto de tipo Nucleotido a una lista denominada celula. 
+     * El parámetro nucleotido que se recibe es un objeto de tipo Nucleotido que se agrega directamente a la lista 
+     * celula sin realizar ninguna operación adicional. 
+     * Este método parece ser una forma simple de añadir un nuevo objeto de tipo Nucleotido a una lista existente.
+     * @param nucleotido 
+     */
     public void agregarNuevoNucleotido(Nucleotido nucleotido) {
         celula.add(nucleotido);
     }
 
+    /**
+     * Este método, llamado getCelula, devuelve la lista de objetos de tipo Nucleotido llamada celula. 
+     * Al llamar a este método, se obtiene la lista completa de los nucleótidos que han sido agregados a la célula. 
+     * Es una forma de acceder a los elementos almacenados en la lista celula desde fuera de la clase que contiene este método.
+     * @return 
+     */
     public List<Nucleotido> getCelula() {
         return celula;
     }
 
+    /**
+     * Devuelve la lista de objetos de tipo Nucleotido denominada celula. Por otro lado, getNumNucleotidos 
+     * retorna el número total de nucleótidos presentes en la célula, proporcionando así una manera de 
+     * acceder tanto a la lista completa de nucleótidos como al recuento total de nucleótidos en la célula.
+     * @return 
+     */
     public int getNumNucleotidos() {
         return numNucleotidos;
     }
-
+    
+    /**
+     * devuelve la lista de objetos de tipo Nucleotido denominada celula. Por otro lado, 
+     * getNumNucleotidos retorna el número total de nucleótidos presentes en la célula, 
+     * proporcionando así una manera de acceder tanto a la lista completa de nucleótidos 
+     * como al recuento total de nucleótidos en la célula.
+     * @param numNucleotidos 
+     */
     public void setNumNucleotidos(int numNucleotidos) {
         this.numNucleotidos = numNucleotidos;
     }
 
+    /**
+     * Retorna el número de columnas de la célula.
+     * @return 
+     */
     public int getNumColumnas() {
         return numColumnas;
     }
-
+    
+    /**
+     * Retorna el número de filas de la célula.
+     * @return 
+     */
     public int getNumFilas() {
         return numFilas;
     }
 
+    /**
+     * Establece el número de columnas de la célula.
+     * @param nColumnas 
+     */
     public void setNumColumnas(int nColumnas) {
         this.numColumnas = nColumnas;
     }
-
+    /**
+     *  Establece el número de filas de la célula.
+     * @param nFilas 
+     */
     public void setNumFilas(int nFilas) {
         this.numFilas = nFilas;
     }
 
+    /**
+     *  Obtiene el tamaño del nucleótido más grande en la célula
+     * @return 
+     */
     public int getTamañoNucleotidoGrande() {
         return extremosSec.get("tamañoGrande");
     }
 
+    /**
+     * Establece el tamaño del nucleótido más grande en la célula.
+     * @param tamaño 
+     */
     public void setTamañoNucleotidoGrande(int tamaño) {
         extremosSec.replace("tamañoGrande", tamaño);
     }
 
+    /**
+     * Obtiene el índice del nucleótido más grande en la célula.
+     * @return 
+     */
     public int getIndexNucleotidoGrande() {
         return extremosSec.get("indexGrande");
     }
 
+    /**
+     * Obtiene el segundo tamaño de nucleótido más grande en la célula.
+     * @return 
+     */
     public int getTamañoNucleotidoGrande2() {
         return extremosSec.get("tamañoGrande2");
     }
 
+    /**
+     *  Establece el segundo tamaño de nucleótido más grande en la célula.
+     * @param tamaño 
+     */
     public void setTamañoNucleotidoGrande2(int tamaño) {
         extremosSec.replace("tamañoGrande2", tamaño);
     }
 
+    /**
+     * Obtiene el segundo índice de nucleótido más grande en la célula.
+     * @return 
+     */
     public int getIndexNucleotidoGrande2() {
         return extremosSec.get("indexGrande2");
     }
 
+    /**
+     * Establece el segundo índice de nucleótido más grande en la célula.
+     * @param index 
+     */
     public void setIndexNucleotidoGrande2(int index) {
         extremosSec.replace("indexGrande2", index);
     }
 
+    /**
+     * Obtiene el tamaño del nucleótido más pequeño en la célula.
+     * @return 
+     */
     public int getTamañoNucleotidoPequeño() {
         return extremosSec.get("tamañoPequeño");
     }
 
+    /**
+     * Establece el tamaño del nucleótido más pequeño en la célula.
+     * @param tamaño 
+     */
     public void setTamañoNucleotidoPequeño(int tamaño) {
         extremosSec.replace("tamañoPequeño", tamaño);
     }
 
+    /**
+     * Obtiene el índice del nucleótido más pequeño en la célula
+     * @return 
+     */
     public int getIndexNucleotidoPequeño() {
         return extremosSec.get("indexPequeño");
     }
 
+    /**
+     * Actualiza los valores de las propiedades de la célula en función de los nucleótidos presentes.
+     */
     public void actualizarDatos() {
         int numNucleotidos = celula.size();
         for (Nucleotido n : celula) {

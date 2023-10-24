@@ -4,8 +4,14 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import org.apache.commons.lang3.SerializationUtils;
 
+/**
+ * *
+ *
+ * @author Erick Toledo
+ */
 public class Aliniamiento {
 
     private SecureRandom random = new SecureRandom();
@@ -16,6 +22,12 @@ public class Aliniamiento {
     private int proporcion;
     private boolean porDiferencia = true;
 
+    /**
+     * Inicia un proceso de alineación basado en diferentes condiciones en la
+     * célula original.
+     *
+     * @param celulaOriginal
+     */
     public Aliniamiento(Celula celulaOriginal) {
         nucleotidoGrande = celulaOriginal.getCelula().get(celulaOriginal.getIndexNucleotidoGrande());
         int numNucleotidos = celulaOriginal.getNumNucleotidos();
@@ -37,6 +49,10 @@ public class Aliniamiento {
         }
     }
 
+    /**
+     * Selecciona un método de alineación específico en función de ciertos
+     * cálculos y condiciones en la célula original.
+     */
     private void selectMetodo(Celula celulaOriginal) {
         int repeticiones = 100;
         int numCandidatos = 10;
@@ -132,6 +148,12 @@ public class Aliniamiento {
         }
     }
 
+    /**
+     * Genera candidatos alineados basados en el nucleótido más grande y otras
+     * condiciones predefinidas.
+     *
+     * @param celulaOriginal
+     */
     private void baseMax(Celula celulaOriginal) {
         SecureRandom r = new SecureRandom();
         int diferencia = celulaOriginal.getTamañoNucleotidoGrande() - celulaOriginal.getTamañoNucleotidoGrande2();
@@ -164,6 +186,12 @@ public class Aliniamiento {
         }
     }
 
+    /**
+     * Genera candidatos alineados basados en el nucleótido más pequeño y otras
+     * condiciones predefinidas.
+     *
+     * @param celulaOriginal
+     */
     private void baseMin(Celula celulaOriginal) {
         SecureRandom r = new SecureRandom();
         Nucleotido temp = SerializationUtils.clone(celulaOriginal.getCelula().get(celulaOriginal.getIndexNucleotidoPequeño()));
@@ -188,6 +216,14 @@ public class Aliniamiento {
         }
     }
 
+    /**
+     * Crea células de prueba para el proceso de alineación utilizando dos
+     * nucleótidos específicos
+     *
+     * @param n1
+     * @param n2
+     * @param indexIgnore
+     */
     private void crearCelulasPrueba(Nucleotido n1, Nucleotido n2, int indexIgnore) {
         CelulaAliniada celula = new CelulaAliniada();
         celula.agregarNucleotido(n1);
@@ -196,6 +232,12 @@ public class Aliniamiento {
         celulasAliniadas.add(celula);
     }
 
+    /**
+     * Selecciona las mejores células alineadas basadas en la calificación
+     * asignada a cada célula.
+     *
+     * @param numCandidatos
+     */
     private void seleccionCalificacion(int numCandidatos) {
         Collections.sort(celulasAliniadas, (c1, c2) -> Integer.compare(c2.getCalificacion(), c1.getCalificacion()));
         List<CelulaAliniada> temp = new ArrayList<>(celulasAliniadas);
@@ -214,6 +256,13 @@ public class Aliniamiento {
         }
     }
 
+    /**
+     * Crea candidatos para la alineación en función de un candidato específico
+     * y otros parámetros.
+     *
+     * @param c
+     * @param n
+     */
     private void crearCandidatos(Celula c, Nucleotido n) {
         candidatos.clear();
         SecureRandom r = new SecureRandom();
@@ -227,6 +276,13 @@ public class Aliniamiento {
         candidatos.add(temp);
     }
 
+    /**
+     * Completa la célula con los candidatos adecuados en función de ciertos
+     * criterios predefinidos
+     *
+     * @param c
+     * @param indexCandidato
+     */
     private void completarCelula(CelulaAliniada c, int indexCandidato) {
         List<Nucleotido> temp = new ArrayList<>(candidatos);
         candidatos.clear();
@@ -239,6 +295,10 @@ public class Aliniamiento {
         }
     }
 
+    /**
+     * Elimina las columnas de gaps de las células alineadas para ajustar la
+     * alineación de manera adecuada.
+     */
     public void eliminarColumnasGaps() {
         for (CelulaAliniada c : celulasAliniadas) {
             int numColumnas = c.getNumColumnas();
@@ -262,7 +322,7 @@ public class Aliniamiento {
             }
         }
     }
-    
+
 //    private void eliminarColumnasGaps() {
 //        for (CelulaAliniada c : celulasAliniadas) {
 //            for (int i = 0; i < c.getNumColumnas(); i++) {
@@ -294,10 +354,14 @@ public class Aliniamiento {
 //        }
 //        c.setNumColumnas(c.getNumColumnas()-1);
 //    }
-
-    private void mutacion(Celula celulaOriginal) {
-        for (Nucleotido nucleotido : celulaOriginal.getCelula()) {
-            // Lógica para mutación
-        }
+    /**
+     * Implementa lógica para la mutación de los nucleótidos en la célula
+     * original.
+     *
+     * @param celulaOriginal
+     */
+    private void mutacion(Celula celula, int cantidadGaps) {
+        
     }
+
 }
