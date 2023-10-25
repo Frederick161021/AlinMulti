@@ -101,36 +101,15 @@ public class Aliniamiento {
             c.mapiarCelula();
             c.setCalificacion();
         }
-
         seleccionCalificacion(numCandidatos);
-        ArrayList<CelulaAliniada> temp = new ArrayList(celulasAliniadas);
-        celulasAliniadas.clear();
-        for (int i = 0; i < celulaOriginal.getNumNucleotidos(); i++) {
-            if (i != celulaOriginal.getIndexNucleotidoGrande()) {
-                for (CelulaAliniada c : temp) {
-                    c.actualizarDatos();
-                    this.crearCandidatos(c, celulaOriginal.getCelula().get(i));
-                    completarCelula(c, i);
-                    c.actualizarDatos();
-                    if (!celulasAliniadas.isEmpty()) {
-//                        System.out.println("candidatos:");
-//                        for (CelulaAliniada ca : celulasAliniadas) {
-//                            for (Nucleotido n : ca.getCelula()) {
-//                                System.out.println(n.getNucleotido());
-//                            }
-//                        }
-                        eliminarColumnasGaps();
-                        for (CelulaAliniada ca : celulasAliniadas) {
-                            ca.actualizarDatos();
-                            ca.mapiarCelula();
-                            ca.setCalificacion();
-                        }
+//        ArrayList<CelulaAliniada> temp = new ArrayList(celulasAliniadas);
+//        celulasAliniadas.clear();
 
-                    }
-                }
-                seleccionCalificacion(numCandidatos);
-            }
+        for (CelulaAliniada c : celulasAliniadas) {
+            completarCelula(celulaOriginal, c);
         }
+        seleccionCalificacion(numCandidatos);
+
         eliminarColumnasGaps();
         for (CelulaAliniada c : celulasAliniadas) {
             c.mapiarCelula();
@@ -263,16 +242,37 @@ public class Aliniamiento {
      * @param c
      * @param n
      */
-    private void crearCandidatos(Celula c, Nucleotido n) {
+//    private void crearCandidatos(Celula c, Nucleotido n) {
+//        candidatos.clear();
+//        SecureRandom r = new SecureRandom();
+//        Nucleotido temp = SerializationUtils.clone(n);
+//        int diferencia = (c.getNumColumnas() - n.getTamaño());
+//        for (int j = 0; j < diferencia; j++) {
+//            int index = r.nextInt(temp.getTamaño());
+//            temp.getNucleotido().add(index, '-');
+//            temp.setTamaño(temp.getNucleotido().size());
+//        }
+//        candidatos.add(temp);
+//    }
+    private void crearCandidatos(CelulaAliniada c, Nucleotido n) {
         candidatos.clear();
         SecureRandom r = new SecureRandom();
         Nucleotido temp = SerializationUtils.clone(n);
         int diferencia = (c.getNumColumnas() - n.getTamaño());
-        for (int j = 0; j < diferencia; j++) {
-            int index = r.nextInt(temp.getTamaño());
-            temp.getNucleotido().add(index, '-');
-            temp.setTamaño(temp.getNucleotido().size());
+
+        if (diferencia > 0) {
+            for (int j = 0; j < diferencia; j++) {
+                int index = r.nextInt(temp.getTamaño());
+                temp.getNucleotido().add(index, '-');
+            }
+//        } else if (diferencia < 0) {
+//            int gapCount = Math.abs(diferencia);
+//            for (int j = 0; j < gapCount; j++) {
+//                temp.getNucleotido().remove(temp.getTamaño() - 1); // Eliminar el último nucleótido
+//            }
         }
+
+        temp.setTamaño(temp.getNucleotido().size()); // Asegurar que el tamaño sea el mismo que el número de columnas
         candidatos.add(temp);
     }
 
@@ -283,14 +283,28 @@ public class Aliniamiento {
      * @param c
      * @param indexCandidato
      */
-    private void completarCelula(CelulaAliniada c, int indexCandidato) {
-        List<Nucleotido> temp = new ArrayList<>(candidatos);
-        candidatos.clear();
-        for (Nucleotido n : temp) {
-            CelulaAliniada clon = SerializationUtils.clone(c);
-            if (n.getTamaño() == clon.getCelula().get(0).getTamaño() && indexCandidato != c.getIndexIgnore()) {
-                clon.agregarNuevoNucleotido(n);
-                celulasAliniadas.add(clon);
+//    private void completarCelula(CelulaAliniada c, int indexCandidato) {
+//        List<Nucleotido> temp = new ArrayList<>(candidatos);
+//        candidatos.clear();
+//        for (Nucleotido n : temp) {
+//            CelulaAliniada clon = SerializationUtils.clone(c);
+//            if (n.getTamaño() == clon.getCelula().get(0).getTamaño() && indexCandidato != c.getIndexIgnore()) {
+//                clon.agregarNuevoNucleotido(n);
+//                celulasAliniadas.add(clon);
+//            }
+//        }
+//    }
+    private void completarCelula(Celula co, CelulaAliniada c) {
+        SecureRandom r = new SecureRandom();
+        for (int i = 0; i < co.getNumNucleotidos(); i++) {
+            if (i != co.getIndexNucleotidoGrande() && i != c.getIndexIgnore()) {
+                Nucleotido temp = SerializationUtils.clone(co.getCelula().get(i));
+                int diferencia = (c.getNumColumnas() - temp.getTamaño());
+                for (int j = 0; j < diferencia; j++) {
+                    int index = r.nextInt(temp.getTamaño());
+                    temp.getNucleotido().add(index, '-');
+                }
+                c.getCelula().add(temp);
             }
         }
     }
@@ -361,7 +375,7 @@ public class Aliniamiento {
      * @param celulaOriginal
      */
     private void mutacion(Celula celula, int cantidadGaps) {
-        
+
     }
 
 }
