@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
- *Clase que extiende de celula que cotine datos para evaluar la celula
+ * Clase que extiende de celula que cotine datos para evaluar la celula
+ *
  * @author Erick Toledo
  */
 public class CelulaAliniada extends Celula implements Serializable {
@@ -31,18 +34,20 @@ public class CelulaAliniada extends Celula implements Serializable {
         super.extremosSec.put("indexPequeño", 0);
         super.extremosSec.put("tamañoPequeño", 0);
     }
-    
+
     /**
      * retorna el numero de gabs
-     * @return 
+     *
+     * @return
      */
     public int getNumGabs() {
         return numGabs;
     }
 
     /**
-     *Establece el numero de gabs
-     * @param numGabs 
+     * Establece el numero de gabs
+     *
+     * @param numGabs
      */
     public void setNumGabs(int numGabs) {
         this.numGabs = numGabs;
@@ -50,7 +55,8 @@ public class CelulaAliniada extends Celula implements Serializable {
 
     /**
      * Retorna el numero de columnas aliniadas de la celula
-     * @return 
+     *
+     * @return
      */
     public int getNumColAliniadas() {
         return numColAliniadas;
@@ -58,23 +64,27 @@ public class CelulaAliniada extends Celula implements Serializable {
 
     /**
      * Establece el número de columnas alineadas en la célula.
-     * @param numColAliniadas 
+     *
+     * @param numColAliniadas
      */
     public void setNumColAliniadas(int numColAliniadas) {
         this.numColAliniadas = numColAliniadas;
     }
 
     /**
-     *  Retorna la calificación actual de la célula.
-     * @return 
+     * Retorna la calificación actual de la célula.
+     *
+     * @return
      */
     public int getCalificacion() {
         return calificacion;
     }
 
     /**
-     * Establece la calificación de la célula basada en diferentes criterios de evaluación.
-     * @param calificacion 
+     * Establece la calificación de la célula basada en diferentes criterios de
+     * evaluación.
+     *
+     * @param calificacion
      */
     public void setCalificacion(int calificacion) {
         this.calificacion = calificacion;
@@ -82,7 +92,8 @@ public class CelulaAliniada extends Celula implements Serializable {
 
     /**
      * Retorna la lista de objetos de tipo Nucleotido llamada celula
-     * @return 
+     *
+     * @return
      */
     public List<Nucleotido> getCelula() {
         return celula;
@@ -90,7 +101,8 @@ public class CelulaAliniada extends Celula implements Serializable {
 
     /**
      * Retorna el índice ignorado actualmente
-     * @return 
+     *
+     * @return
      */
     public int getIndexIgnore() {
         return indexIgnore;
@@ -98,15 +110,17 @@ public class CelulaAliniada extends Celula implements Serializable {
 
     /**
      * Establece el índice a ignorar
-     * @param indexIgnore 
+     *
+     * @param indexIgnore
      */
     public void setIndexIgnore(int indexIgnore) {
         this.indexIgnore = indexIgnore;
     }
 
     /**
-     *  Establece la lista de objetos de tipo Nucleotido en la célula.
-     * @param celula 
+     * Establece la lista de objetos de tipo Nucleotido en la célula.
+     *
+     * @param celula
      */
     public void setCelula(List<Nucleotido> celula) {
         this.celula = celula;
@@ -145,9 +159,9 @@ public class CelulaAliniada extends Celula implements Serializable {
 //        // Lógica de manejo de null aquí
 //    }
 //}
-    
     /**
-     * Mapea la distribución de caracteres en la célula y maneja los casos límite y nulos.
+     * Mapea la distribución de caracteres en la célula y maneja los casos
+     * límite y nulos.
      */
     public void mapiarCelula() {
         if (super.getCelula() != null) {
@@ -175,20 +189,20 @@ public class CelulaAliniada extends Celula implements Serializable {
      * Reinicia los valores de repeticiones en la distribución de caracteres.
      */
     private void resetRepeticiones() {
-        for (Map.Entry<Character, Integer> entry : caracteres.entrySet()) {
-            entry.setValue(0);
+        for (int i = 0; i < caracteres.size(); i++) {
+            caracteres.replaceAll((k, v) -> 0);
         }
     }
 
     /**
-     * Calcula la calificación de la célula basada en el nivel de alineación y otros criterios definidos.
+     * Calcula la calificación de la célula basada en el nivel de alineación y
+     * otros criterios definidos.
      */
     public void setCalificacion() {
         numColAliniadas = 0;
         numGabs = 0;
         calificacion = 0;
         int numSemiAliniadas = 0;
-        super.actualizarDatos();
         int limitSemiAliniada = (int) (super.getNumColumnas() * .5);
         for (int i = 0; i < super.getNumColumnas(); i++) {
             for (int j = 0; j < super.getNumFilas(); j++) {
@@ -220,9 +234,9 @@ public class CelulaAliniada extends Celula implements Serializable {
         double propGabs = Math.min(1, Math.max(0, (double) numGabs / super.getNumColumnas()));
         double propSemiAliniadas = Math.min(1, Math.max(0, (double) numSemiAliniadas / super.getNumColumnas()));
 
-        int califColAliniadas = (int) (propColAliniadas * 150); // Premio columnas completamente alineadas
-        int califGabs = (int) ((1 - propGabs) * 10); // Penalización espacios en blanco
-        int califSemiAliniadas = (int) (propSemiAliniadas * 50);
+        int califColAliniadas = (int) (propColAliniadas * 1000); // Premio columnas completamente alineadas
+        int califGabs = (int) (1 - propGabs); // Penalización espacios en blanco
+        int califSemiAliniadas = (int) (propSemiAliniadas * 500);
 
         calificacion = Math.min(100, Math.max(0, (califColAliniadas + califSemiAliniadas) - califGabs)); // Calificación final estandarizada
     }

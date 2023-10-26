@@ -32,9 +32,10 @@ public class alinacionMulti {
 //                String secuencia = s.nextLine().toUpperCase();
 //                celula.agregarNucleotido(encabezado, secuencia);
 //            }
-            celula.agregarNucleotido("1", "Comunicación");
-            celula.agregarNucleotido("2", "Comunidad");
-            celula.agregarNucleotido("3", "Complemento");
+            celula.agregarNucleotido("1", "comunicacion");
+            celula.agregarNucleotido("2", "comunidad");
+            celula.agregarNucleotido("3", "complemento");
+            
             if (celula.getTamañoNucleotidoGrande2() == 0) {
                 celula.setTamañoNucleotidoGrande2(celula.getIndexNucleotidoPequeño());
                 celula.setIndexNucleotidoGrande2(celula.getIndexNucleotidoPequeño());

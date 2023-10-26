@@ -2,9 +2,8 @@ package com.mycompany.alinamientomultiple;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 import org.apache.commons.lang3.SerializationUtils;
 
 /**
@@ -108,16 +107,36 @@ public class Aliniamiento {
         for (CelulaAliniada c : celulasAliniadas) {
             completarCelula(celulaOriginal, c);
         }
-        seleccionCalificacion(numCandidatos);
-
-        eliminarColumnasGaps();
         for (CelulaAliniada c : celulasAliniadas) {
             c.mapiarCelula();
             c.setCalificacion();
         }
+        seleccionCalificacion(numCandidatos);
+
+        ArrayList<CelulaAliniada> temp = new ArrayList(celulasAliniadas);
+        for (int i = 0; i < repeticiones; i++) {
+            for (CelulaAliniada c : temp) {
+                mutacion(c);
+            }
+            eliminarColumnasGaps();
+            for (CelulaAliniada ca : celulasAliniadas) {
+                ca.actualizarDatos();
+                ca.mapiarCelula();
+                ca.setCalificacion();
+            }
+            seleccionCalificacion(numCandidatos);
+        }
+        for (CelulaAliniada c : celulasAliniadas) {
+            c.actualizarDatos();
+            c.mapiarCelula();
+            c.setCalificacion();
+        }
+        seleccionCalificacion(numCandidatos);
 
         System.out.println("Mejores candidatos");
         for (CelulaAliniada c : celulasAliniadas) {
+            c.mapiarCelula();
+            c.getCalificacion();
             System.out.println("Calificacion: " + c.getCalificacion());
             System.out.println("Numero de columnas aliniadas: " + c.getNumColAliniadas());
             System.out.println("Numero de Gabs: " + c.getNumGabs());
@@ -217,21 +236,34 @@ public class Aliniamiento {
      *
      * @param numCandidatos
      */
+//    private void seleccionCalificacion(int numCandidatos) {
+//        Collections.sort(celulasAliniadas, (c1, c2) -> Integer.compare(c2.getCalificacion(), c1.getCalificacion()));
+//        List<CelulaAliniada> temp = new ArrayList<>(celulasAliniadas);
+//        celulasAliniadas.clear();
+//        for (int i = 0; i < numCandidatos && i < temp.size(); i++) {
+//            CelulaAliniada c = temp.get(i);
+//            CelulaAliniada copia = new CelulaAliniada();
+//            for (Nucleotido n : c.getCelula()) {
+//                copia.agregarNucleotido(SerializationUtils.clone(n));
+//            }
+//            copia.setCalificacion(c.getCalificacion());
+//            copia.setNumColAliniadas(c.getNumColAliniadas());
+//            copia.setNumGabs(c.getNumGabs());
+//            copia.setIndexIgnore(c.getIndexIgnore());
+//            celulasAliniadas.add(copia);
+//        }
+//    }
     private void seleccionCalificacion(int numCandidatos) {
-        Collections.sort(celulasAliniadas, (c1, c2) -> Integer.compare(c2.getCalificacion(), c1.getCalificacion()));
-        List<CelulaAliniada> temp = new ArrayList<>(celulasAliniadas);
-        celulasAliniadas.clear();
-        for (int i = 0; i < numCandidatos && i < temp.size(); i++) {
-            CelulaAliniada c = temp.get(i);
-            CelulaAliniada copia = new CelulaAliniada();
-            for (Nucleotido n : c.getCelula()) {
-                copia.agregarNucleotido(SerializationUtils.clone(n));
-            }
-            copia.setCalificacion(c.getCalificacion());
-            copia.setNumColAliniadas(c.getNumColAliniadas());
-            copia.setNumGabs(c.getNumGabs());
-            copia.setIndexIgnore(c.getIndexIgnore());
-            celulasAliniadas.add(copia);
+        if (celulasAliniadas == null || celulasAliniadas.isEmpty()) {
+            return; // No hacer nada si la lista está vacía o es nula
+        }
+
+        // Ordenar en orden descendente de calificación
+        celulasAliniadas.sort(Comparator.comparingInt(CelulaAliniada::getCalificacion).reversed());
+
+        // Mantener solo un número específico de células de alta calificación
+        if (celulasAliniadas.size() > numCandidatos) {
+            celulasAliniadas.subList(numCandidatos, celulasAliniadas.size()-1).clear();
         }
     }
 
@@ -374,8 +406,24 @@ public class Aliniamiento {
      *
      * @param celulaOriginal
      */
-    private void mutacion(Celula celula, int cantidadGaps) {
-
+    private void mutacion(CelulaAliniada c) {
+        CelulaAliniada temp = new CelulaAliniada();
+        SecureRandom r = new SecureRandom();
+        temp = SerializationUtils.clone(c);
+        int iteraciones = 0;
+        int index = 0;
+        if (temp.getCalificacion() > 40) {
+            iteraciones = (int) (temp.getNumColumnas() * .05);
+        } else {
+            iteraciones = (int) (temp.getNumColumnas() * .1);
+        }
+        for (Nucleotido n : temp.getCelula()) {
+            for (int i = 0; i < iteraciones; i++) {
+                index = r.nextInt(n.getTamaño());
+                n.getNucleotido().add(index, '-');
+            }
+        }
+        celulasAliniadas.add(temp);
     }
 
 }
