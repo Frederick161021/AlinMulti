@@ -16,7 +16,7 @@ import java.util.function.Function;
  */
 public class CelulaAliniada extends Celula implements Serializable {
 
-    private int numGabs = 0;
+    private int numGaps = 0;
     private int numColAliniadas = 0;
     private int calificacion = 0;
     private int indexIgnore;
@@ -40,8 +40,8 @@ public class CelulaAliniada extends Celula implements Serializable {
      *
      * @return
      */
-    public int getNumGabs() {
-        return numGabs;
+    public int getNumGaps() {
+        return numGaps;
     }
 
     /**
@@ -49,8 +49,8 @@ public class CelulaAliniada extends Celula implements Serializable {
      *
      * @param numGabs
      */
-    public void setNumGabs(int numGabs) {
-        this.numGabs = numGabs;
+    public void setNumGaps(int numGabs) {
+        this.numGaps = numGabs;
     }
 
     /**
@@ -200,7 +200,7 @@ public class CelulaAliniada extends Celula implements Serializable {
      */
     public void setCalificacion() {
         numColAliniadas = 0;
-        numGabs = 0;
+        numGaps = 0;
         calificacion = 0;
         int numSemiAliniadas = 0;
         int limitSemiAliniada = (int) (super.getNumColumnas() * .5);
@@ -226,17 +226,17 @@ public class CelulaAliniada extends Celula implements Serializable {
                     }
                 }
             }
-            this.numGabs += caracteres.get('-');
+            this.numGaps += caracteres.get('-');
             resetRepeticiones();
         }
         // Normalizar la calificación
         double propColAliniadas = Math.min(1, Math.max(0, (double) numColAliniadas / super.getNumColumnas()));
-        double propGabs = Math.min(1, Math.max(0, (double) numGabs / super.getNumColumnas()));
+        double propGabs = Math.min(1, Math.max(0, (double) numGaps / super.getNumColumnas()));
         double propSemiAliniadas = Math.min(1, Math.max(0, (double) numSemiAliniadas / super.getNumColumnas()));
 
-        int califColAliniadas = (int) (propColAliniadas * 1000); // Premio columnas completamente alineadas
+        int califColAliniadas = (int) (propColAliniadas * 500); // Premio columnas completamente alineadas
         int califGabs = (int) (1 - propGabs); // Penalización espacios en blanco
-        int califSemiAliniadas = (int) (propSemiAliniadas * 500);
+        int califSemiAliniadas = (int) (propSemiAliniadas * 200);
 
         calificacion = Math.min(100, Math.max(0, (califColAliniadas + califSemiAliniadas) - califGabs)); // Calificación final estandarizada
     }

@@ -107,6 +107,7 @@ public class Aliniamiento {
         for (CelulaAliniada c : celulasAliniadas) {
             completarCelula(celulaOriginal, c);
         }
+        eliminarColumnasGaps();
         for (CelulaAliniada c : celulasAliniadas) {
             c.mapiarCelula();
             c.setCalificacion();
@@ -126,6 +127,7 @@ public class Aliniamiento {
             }
             seleccionCalificacion(numCandidatos);
         }
+        eliminarColumnasGaps();
         for (CelulaAliniada c : celulasAliniadas) {
             c.actualizarDatos();
             c.mapiarCelula();
@@ -139,7 +141,7 @@ public class Aliniamiento {
             c.getCalificacion();
             System.out.println("Calificacion: " + c.getCalificacion());
             System.out.println("Numero de columnas aliniadas: " + c.getNumColAliniadas());
-            System.out.println("Numero de Gabs: " + c.getNumGabs());
+            System.out.println("Numero de Gaps: " + c.getNumGaps());
             for (Nucleotido n : c.getCelula()) {
                 System.out.println(n.getNucleotido());
             }
@@ -346,28 +348,52 @@ public class Aliniamiento {
      * alineación de manera adecuada.
      */
     public void eliminarColumnasGaps() {
-        for (CelulaAliniada c : celulasAliniadas) {
-            int numColumnas = c.getNumColumnas();
-            for (int i = 0; i < numColumnas; i++) {
-                boolean esColumnaGap = true;
-                for (Nucleotido nucleotido : c.getCelula()) {
-                    List<Character> nucleotidoList = nucleotido.getNucleotido();
-                    if (i >= c.getCelula().size() || nucleotidoList.get(i) != '-') {
-                        esColumnaGap = false;
-                        break;
+    for (CelulaAliniada c : celulasAliniadas) {
+        c.actualizarDatos();
+        int numColumnas = c.getNumColumnas();
+        for (int i = 0; i < numColumnas; i++) {
+            boolean esColumnaGap = true;
+            for (int j = 0; j < c.getNumFilas(); j++) {
+                if (i < c.getCelula().get(j).getTamaño() && c.getCelula().get(j).getNucleotido().get(i) != '-') {
+                    esColumnaGap = false;
+                    break;
+                }
+            }
+            if (esColumnaGap) {
+                for (int j = 0; j < c.getNumFilas(); j++) {
+                    if (i < c.getCelula().get(j).getTamaño()) {
+                        c.getCelula().get(j).getNucleotido().remove(i);
                     }
                 }
-                if (esColumnaGap) {
-                    for (Nucleotido nucleotido : c.getCelula()) {
-                        nucleotido.getNucleotido().remove(i);
-                    }
-                    c.setNumColumnas(c.getNumColumnas() - 1);
-                    numColumnas--;
-                    i--;
-                }
+                c.actualizarDatos();
+                numColumnas--;
+                i--;
             }
         }
     }
+}
+
+//    public void eliminarColumnasGaps() {
+//        for (CelulaAliniada c : celulasAliniadas) {
+//            c.actualizarDatos();
+//            for (int i = 0; i < c.getNumColumnas(); i++) {
+//                boolean esColumnaGap = true;
+//                for (int j = 0; j < c.getNumFilas(); j++) {
+//                    if (i >= c.getCelula().size() || c.getCelula().get(j).getNucleotido().get(i) != '-') {
+//                        esColumnaGap = false;
+//                        break;
+//                    }
+//                }
+//                if (esColumnaGap) {
+//                    for (int j = 0; j < c.getNumFilas(); j++) {
+//                        c.getCelula().get(j).getNucleotido().remove(i);
+//                    }
+//                    c.actualizarDatos();
+//                    i--;
+//                }
+//            }
+//        }
+//    }
 
 //    private void eliminarColumnasGaps() {
 //        for (CelulaAliniada c : celulasAliniadas) {
