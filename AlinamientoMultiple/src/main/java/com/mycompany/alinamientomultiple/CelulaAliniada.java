@@ -3,11 +3,8 @@ package com.mycompany.alinamientomultiple;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * Clase que extiende de celula que cotine datos para evaluar la celula
@@ -125,40 +122,6 @@ public class CelulaAliniada extends Celula implements Serializable {
     public void setCelula(List<Nucleotido> celula) {
         this.celula = celula;
     }
-
-//    public void mapiarCelula() {
-//        caracteres.put('-', 0);
-//        for (int i = 0; i < super.getNumColumnas(); i++) {
-//            for (int j = 0; j < super.getNumFilas(); j++) {
-//                Character c = super.getCelula().get(j).getNucleotido().get(i);
-//                if (!caracteres.containsKey(c)) {
-//                    caracteres.put(c, 0);
-//                }
-//            }
-//        }
-////        System.out.println("caracteres\n"+caracteres);
-//    }
-//    public void mapiarCelula() {
-//    if (super.getCelula() != null) {
-//        caracteres.put('-', 0);
-//        int numFilas = super.getNumFilas();
-//        int numColumnas = super.getNumColumnas();
-//        for (int i = 0; i < numColumnas; i++) {
-//            for (int j = 0; j < numFilas; j++) {
-//                if (j < super.getCelula().size() && super.getCelula().get(j).getNucleotido() != null && i < super.getCelula().get(j).getNucleotido().size()) {
-//                    Character c = super.getCelula().get(j).getNucleotido().get(i);
-//                    if (!caracteres.containsKey(c)) {
-//                        caracteres.put(c, 0);
-//                    }
-//                } else {
-//                    // Lógica de manejo de límites o null aquí
-//                }
-//            }
-//        }
-//    } else {
-//        // Lógica de manejo de null aquí
-//    }
-//}
     /**
      * Mapea la distribución de caracteres en la célula y maneja los casos
      * límite y nulos.
@@ -235,9 +198,9 @@ public class CelulaAliniada extends Celula implements Serializable {
         double propGabs = Math.min(1, Math.max(0, (double) numGaps / super.getNumColumnas()));
         double propSemiAliniadas = Math.min(1, Math.max(0, (double) numSemiAliniadas / super.getNumColumnas()));
 
-        int califColAliniadas = (int) (propColAliniadas * 500); // Premio columnas completamente alineadas
+        int califColAliniadas = (int) (propColAliniadas * 400); // Premio columnas completamente alineadas
         int califGabs = (int) (1 - propGabs); // Penalización espacios en blanco
-        int califSemiAliniadas = (int) (propSemiAliniadas * 200);
+        int califSemiAliniadas = (int) (propSemiAliniadas * 100);
 
         calificacion = Math.min(100, Math.max(0, (califColAliniadas + califSemiAliniadas) - califGabs)); // Calificación final estandarizada
         }
@@ -259,9 +222,9 @@ public class CelulaAliniada extends Celula implements Serializable {
         double propGabs = Math.min(1, Math.max(0, (double) numGaps / (int)(super.getNumColumnas()*.05)));
         double propSemiAliniadas = Math.min(1, Math.max(0, (double) numSemiAliniadas / (int)(super.getNumColumnas()*.05)));
 
-        int califColAliniadas = (int) (propColAliniadas * 1000); // Premio columnas completamente alineadas
+        int califColAliniadas = (int) (propColAliniadas * 700); // Premio columnas completamente alineadas
         int califGabs = (int) (1 - propGabs); // Penalización espacios en blanco
-        int califSemiAliniadas = (int) (propSemiAliniadas * 500);
+        int califSemiAliniadas = (int) (propSemiAliniadas * 300);
 
         calificacion = Math.min(100, Math.max(0, (califColAliniadas + califSemiAliniadas) - califGabs)); // Calificación final estandarizada
         }

@@ -20,30 +20,30 @@ public class alinacionMulti {
     public static void crearCelula() {
         try {
             //Pregunta cuantas secuencias tendra la celula
-//            System.out.println("Cuantas secuencias tiene la celula?");
-//            int numSec = s.nextInt();
+            System.out.println("Cuantas secuencias tiene la celula?");
+            int numSec = s.nextInt();
             celula = new Celula();
             s.nextLine();
             //mete las secuencias en la celula
-//            for (int i = 0; i < numSec; i++) {
-//                System.out.println("Digite el encabezado de la secuencia numero " + (i + 1));
-//                String encabezado = s.nextLine().toLowerCase();
-//                System.out.println("Digite la secuencia numero " + (i + 1));
-//                String secuencia = s.nextLine().toUpperCase();
-//                celula.agregarNucleotido(encabezado, secuencia);
-//            }
-            celula.agregarNucleotido("1", "comunicacion");
-            celula.agregarNucleotido("2", "comunidad");
-            celula.agregarNucleotido("3", "complemento");
+            for (int i = 0; i < numSec; i++) {
+                System.out.println("Digite el encabezado de la secuencia numero " + (i + 1));
+                String encabezado = s.nextLine().toLowerCase();
+                System.out.println("Digite la secuencia numero " + (i + 1));
+                String secuencia = s.nextLine().toUpperCase();
+                celula.agregarNucleotido(encabezado, secuencia);
+            }
             
             if (celula.getTamañoNucleotidoGrande2() == 0) {
-                celula.setTamañoNucleotidoGrande2(celula.getIndexNucleotidoPequeño());
+                celula.setTamañoNucleotidoGrande2(celula.getTamañoNucleotidoPequeño());
                 celula.setIndexNucleotidoGrande2(celula.getIndexNucleotidoPequeño());
+            }
+            if (celula.getNumFilas() == 2) {
+                celula.setTamañoNucleotidoPequeño(celula.getTamañoNucleotidoGrande2());
+                celula.setIndexNucleotidoPequeño(celula.getIndexNucleotidoGrande2());
             }
             
             System.out.println("Quieres crear un archivo fasta de esta celula:\n1.-Si\n2.-No");
-            int si =2;
-//            int si = s.nextInt();
+            int si = s.nextInt();
             if (si == 1) {
                 //crea y nombra el archivo fasta en el que lo va a guardar
                 System.out.println("Digite un nombre para el documento Fasta:");
@@ -52,6 +52,23 @@ public class alinacionMulti {
             }
             else{
                 System.out.println("Se creo la Celula sin un Archivo Fasta");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+     public static void test() {
+        try {
+            celula = new Celula();
+            s.nextLine();
+            celula.agregarNucleotido("1", "comunicacion");
+            celula.agregarNucleotido("2", "comunidad");
+            celula.agregarNucleotido("3", "complemento");
+            
+            if (celula.getTamañoNucleotidoGrande2() == 0) {
+                celula.setTamañoNucleotidoGrande2(celula.getIndexNucleotidoPequeño());
+                celula.setIndexNucleotidoGrande2(celula.getIndexNucleotidoPequeño());
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -145,7 +162,4 @@ public class alinacionMulti {
 }
 //C:\Users\togae\OneDrive\Documentos\NetBeansProjects\AlinamientoMultiple\AlinamientoMultiple\src\main\resources\fasta\ejemplo.fasta
 //C:\Users\togae\OneDrive\Documentos\NetBeansProjects\AlinamientoMultiple\AlinamientoMultiple\src\main\resources\fasta\celulaOriginal.fasta
-//SecureRandom secureRandom = new SecureRandom();
-//        
-//        // Generar un número entero aleatorio entre 1 y 100 (ambos inclusive)
-//        int numeroEntero = secureRandom.nextInt(100) + 1;
+

@@ -101,12 +101,13 @@ public class Aliniamiento {
             c.setCalificacion();
         }
         seleccionCalificacion(numCandidatos);
-//        ArrayList<CelulaAliniada> temp = new ArrayList(celulasAliniadas);
-//        celulasAliniadas.clear();
-
-        for (CelulaAliniada c : celulasAliniadas) {
-            completarCelula(celulaOriginal, c);
+        
+        if (celulaOriginal.getNumFilas() > 2) {
+            for (CelulaAliniada c : celulasAliniadas) {
+                completarCelula(celulaOriginal, c);
+            }
         }
+
         eliminarColumnasGaps();
         for (CelulaAliniada c : celulasAliniadas) {
             c.mapiarCelula();
@@ -238,23 +239,6 @@ public class Aliniamiento {
      *
      * @param numCandidatos
      */
-//    private void seleccionCalificacion(int numCandidatos) {
-//        Collections.sort(celulasAliniadas, (c1, c2) -> Integer.compare(c2.getCalificacion(), c1.getCalificacion()));
-//        List<CelulaAliniada> temp = new ArrayList<>(celulasAliniadas);
-//        celulasAliniadas.clear();
-//        for (int i = 0; i < numCandidatos && i < temp.size(); i++) {
-//            CelulaAliniada c = temp.get(i);
-//            CelulaAliniada copia = new CelulaAliniada();
-//            for (Nucleotido n : c.getCelula()) {
-//                copia.agregarNucleotido(SerializationUtils.clone(n));
-//            }
-//            copia.setCalificacion(c.getCalificacion());
-//            copia.setNumColAliniadas(c.getNumColAliniadas());
-//            copia.setNumGabs(c.getNumGabs());
-//            copia.setIndexIgnore(c.getIndexIgnore());
-//            celulasAliniadas.add(copia);
-//        }
-//    }
     private void seleccionCalificacion(int numCandidatos) {
         if (celulasAliniadas == null || celulasAliniadas.isEmpty()) {
             return; // No hacer nada si la lista está vacía o es nula
@@ -265,49 +249,8 @@ public class Aliniamiento {
 
         // Mantener solo un número específico de células de alta calificación
         if (celulasAliniadas.size() > numCandidatos) {
-            celulasAliniadas.subList(numCandidatos, celulasAliniadas.size()-1).clear();
+            celulasAliniadas.subList(numCandidatos, celulasAliniadas.size() - 1).clear();
         }
-    }
-
-    /**
-     * Crea candidatos para la alineación en función de un candidato específico
-     * y otros parámetros.
-     *
-     * @param c
-     * @param n
-     */
-//    private void crearCandidatos(Celula c, Nucleotido n) {
-//        candidatos.clear();
-//        SecureRandom r = new SecureRandom();
-//        Nucleotido temp = SerializationUtils.clone(n);
-//        int diferencia = (c.getNumColumnas() - n.getTamaño());
-//        for (int j = 0; j < diferencia; j++) {
-//            int index = r.nextInt(temp.getTamaño());
-//            temp.getNucleotido().add(index, '-');
-//            temp.setTamaño(temp.getNucleotido().size());
-//        }
-//        candidatos.add(temp);
-//    }
-    private void crearCandidatos(CelulaAliniada c, Nucleotido n) {
-        candidatos.clear();
-        SecureRandom r = new SecureRandom();
-        Nucleotido temp = SerializationUtils.clone(n);
-        int diferencia = (c.getNumColumnas() - n.getTamaño());
-
-        if (diferencia > 0) {
-            for (int j = 0; j < diferencia; j++) {
-                int index = r.nextInt(temp.getTamaño());
-                temp.getNucleotido().add(index, '-');
-            }
-//        } else if (diferencia < 0) {
-//            int gapCount = Math.abs(diferencia);
-//            for (int j = 0; j < gapCount; j++) {
-//                temp.getNucleotido().remove(temp.getTamaño() - 1); // Eliminar el último nucleótido
-//            }
-        }
-
-        temp.setTamaño(temp.getNucleotido().size()); // Asegurar que el tamaño sea el mismo que el número de columnas
-        candidatos.add(temp);
     }
 
     /**
@@ -317,17 +260,6 @@ public class Aliniamiento {
      * @param c
      * @param indexCandidato
      */
-//    private void completarCelula(CelulaAliniada c, int indexCandidato) {
-//        List<Nucleotido> temp = new ArrayList<>(candidatos);
-//        candidatos.clear();
-//        for (Nucleotido n : temp) {
-//            CelulaAliniada clon = SerializationUtils.clone(c);
-//            if (n.getTamaño() == clon.getCelula().get(0).getTamaño() && indexCandidato != c.getIndexIgnore()) {
-//                clon.agregarNuevoNucleotido(n);
-//                celulasAliniadas.add(clon);
-//            }
-//        }
-//    }
     private void completarCelula(Celula co, CelulaAliniada c) {
         SecureRandom r = new SecureRandom();
         for (int i = 0; i < co.getNumNucleotidos(); i++) {
@@ -348,84 +280,31 @@ public class Aliniamiento {
      * alineación de manera adecuada.
      */
     public void eliminarColumnasGaps() {
-    for (CelulaAliniada c : celulasAliniadas) {
-        c.actualizarDatos();
-        int numColumnas = c.getNumColumnas();
-        for (int i = 0; i < numColumnas; i++) {
-            boolean esColumnaGap = true;
-            for (int j = 0; j < c.getNumFilas(); j++) {
-                if (i < c.getCelula().get(j).getTamaño() && c.getCelula().get(j).getNucleotido().get(i) != '-') {
-                    esColumnaGap = false;
-                    break;
-                }
-            }
-            if (esColumnaGap) {
+        for (CelulaAliniada c : celulasAliniadas) {
+            c.actualizarDatos();
+            int numColumnas = c.getNumColumnas();
+            for (int i = 0; i < numColumnas; i++) {
+                boolean esColumnaGap = true;
                 for (int j = 0; j < c.getNumFilas(); j++) {
-                    if (i < c.getCelula().get(j).getTamaño()) {
-                        c.getCelula().get(j).getNucleotido().remove(i);
+                    if (i < c.getCelula().get(j).getTamaño() && c.getCelula().get(j).getNucleotido().get(i) != '-') {
+                        esColumnaGap = false;
+                        break;
                     }
                 }
-                c.actualizarDatos();
-                numColumnas--;
-                i--;
+                if (esColumnaGap) {
+                    for (int j = 0; j < c.getNumFilas(); j++) {
+                        if (i < c.getCelula().get(j).getTamaño()) {
+                            c.getCelula().get(j).getNucleotido().remove(i);
+                        }
+                    }
+                    c.actualizarDatos();
+                    numColumnas--;
+                    i--;
+                }
             }
         }
     }
-}
 
-//    public void eliminarColumnasGaps() {
-//        for (CelulaAliniada c : celulasAliniadas) {
-//            c.actualizarDatos();
-//            for (int i = 0; i < c.getNumColumnas(); i++) {
-//                boolean esColumnaGap = true;
-//                for (int j = 0; j < c.getNumFilas(); j++) {
-//                    if (i >= c.getCelula().size() || c.getCelula().get(j).getNucleotido().get(i) != '-') {
-//                        esColumnaGap = false;
-//                        break;
-//                    }
-//                }
-//                if (esColumnaGap) {
-//                    for (int j = 0; j < c.getNumFilas(); j++) {
-//                        c.getCelula().get(j).getNucleotido().remove(i);
-//                    }
-//                    c.actualizarDatos();
-//                    i--;
-//                }
-//            }
-//        }
-//    }
-
-//    private void eliminarColumnasGaps() {
-//        for (CelulaAliniada c : celulasAliniadas) {
-//            for (int i = 0; i < c.getNumColumnas(); i++) {
-//                for (int j = 0; j < c.getNumFilas(); j++) {
-//                    if (c.getCelula().get(j).getNucleotido().get(i) == '-') {
-//                        if (j == c.getNumFilas() - 1) {
-////                            System.out.println("col de gabs"+ i);
-//                            eleminarColumna(i, c);
-//                        }
-//                    } else {
-//                        j = c.getNumFilas();
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    private void eleminarColumna(int index, CelulaAliniada c) {
-//        int t = 0;
-//        for (int j = 0; j < c.getNumFilas(); j++) {
-//            Nucleotido n = c.getCelula().get(j);
-////            System.out.println("antes");
-////            System.out.println(n.getNucleotido());
-//            n.getNucleotido().remove(index);
-////            System.out.println("despues");
-////            System.out.println(n.getNucleotido());
-//            t = n.getTamaño()-1;
-//            n.setTamaño(t);
-//        }
-//        c.setNumColumnas(c.getNumColumnas()-1);
-//    }
     /**
      * Implementa lógica para la mutación de los nucleótidos en la célula
      * original.

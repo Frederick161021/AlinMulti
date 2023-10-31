@@ -263,6 +263,14 @@ public class Celula implements Serializable {
     public int getIndexNucleotidoPequeño() {
         return extremosSec.get("indexPequeño");
     }
+    
+    /**
+     * Establece el índice del nucleótido más pequeño en la célula
+     * @param index 
+     */
+    public void setIndexNucleotidoPequeño(int index) {
+         extremosSec.replace("indexPequeño", index);
+    }
 
     /**
      * Actualiza los valores de las propiedades de la célula en función de los nucleótidos presentes.
