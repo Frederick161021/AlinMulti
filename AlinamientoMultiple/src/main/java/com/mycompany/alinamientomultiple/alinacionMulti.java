@@ -47,7 +47,7 @@ public class alinacionMulti {
             if (si == 1) {
                 //crea y nombra el archivo fasta en el que lo va a guardar
                 System.out.println("Digite un nombre para el documento Fasta:");
-                String nombre = s.next();
+                String nombre = s.nextLine();
                 Fasta fasta = new Fasta(nombre, celula);    
             }
             else{

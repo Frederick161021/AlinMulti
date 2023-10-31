@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 import org.apache.commons.lang3.SerializationUtils;
 
 /**
@@ -146,6 +147,15 @@ public class Aliniamiento {
             for (Nucleotido n : c.getCelula()) {
                 System.out.println(n.getNucleotido());
             }
+        }
+        Scanner s = new Scanner(System.in);
+        System.out.println("Desea imprimir la mejor celula?\n1.-Si\n2.-No");
+        int r = s.nextInt();
+        if (r == 1) {
+            System.out.println("Digite el nombre del Documento:");
+            s.nextLine();
+            String nombre = s.nextLine();
+            Fasta fasta = new Fasta(nombre, celulasAliniadas.get(0));   
         }
     }
 
