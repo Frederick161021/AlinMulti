@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.JFrame;
 import org.apache.commons.lang3.SerializationUtils;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * *
@@ -58,7 +63,8 @@ public class Aliniamiento {
         int numCandidatos = 10;
         int diferencia = celulaOriginal.getTamañoNucleotidoGrande() - celulaOriginal.getTamañoNucleotidoGrande2();
         proporcion = (celulaOriginal.getTamañoNucleotidoGrande() * 30) / 100;
-
+        
+        //Inico de metodos minimo y maximo
         if (diferencia > proporcion) {
             for (int i = 0; i < repeticiones * repeticiones; i++) {
                 baseMax(celulaOriginal);
@@ -115,7 +121,10 @@ public class Aliniamiento {
             c.setCalificacion();
         }
         seleccionCalificacion(numCandidatos);
-
+        
+        //Proceso de mutacion y seleccion por calificacion
+        int promedio = 0;
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         ArrayList<CelulaAliniada> temp = new ArrayList(celulasAliniadas);
         for (int i = 0; i < repeticiones; i++) {
             for (CelulaAliniada c : temp) {
@@ -128,6 +137,12 @@ public class Aliniamiento {
                 ca.setCalificacion();
             }
             seleccionCalificacion(numCandidatos);
+            for (CelulaAliniada ca : celulasAliniadas) {
+                promedio += ca.getCalificacion();
+            }
+            promedio = promedio/numCandidatos; 
+            dataset.addValue(promedio, "Promedio", "Iteracion "+i);
+            promedio = 0;
         }
         eliminarColumnasGaps();
         for (CelulaAliniada c : celulasAliniadas) {
@@ -136,7 +151,24 @@ public class Aliniamiento {
             c.setCalificacion();
         }
         seleccionCalificacion(numCandidatos);
+        
+        //Graficacion
+        JFreeChart barChart = ChartFactory.createBarChart(
+                "Promedio de las celulas mejor aliniadas por iteraicion",
+                "Iteración",
+                "Promedio",
+                dataset
+        );
+        JFrame frame = new JFrame("Grafico de la evolucion de celulas aliniadas");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        ChartPanel chartPanel = new ChartPanel(barChart);
+        frame.getContentPane().add(chartPanel);
+
+        frame.pack();
+        frame.setVisible(true);
+        
+        //Imprime las mejores
         System.out.println("Mejores candidatos");
         for (CelulaAliniada c : celulasAliniadas) {
             c.mapiarCelula();
